@@ -156,25 +156,14 @@ cr.define('extensions', function() {
 
     /** @override */
     deleteItem(id) {
-      if (this.isDeleting_)
-        return;
-      this.isDeleting_ = true;
-      console.log("Tracing, calling chrome.management.uninstall");
-      if (window.confirm("Really uninstall extension " + id + " ?")) {
-        chrome.management.uninstall(id, {showConfirmDialog: true}, () => {
-          // The "last error" was almost certainly the user canceling the dialog.
-          // Do nothing. We only check it so we don't get noisy logs.
-          /** @suppress {suspiciousCode} */
-          chrome.runtime.lastError;
-          this.isDeleting_ = false;
-        });
-      }
+      console.log("Extension deletion is disabled. ID:", id);
     }
 
     /** @override */
     setItemEnabled(id, isEnabled) {
-      console.log("Tracing, calling chrome.management.setEnabled");
-      chrome.management.setEnabled(id, isEnabled);
+      console.log("Extension enabling/disabling overridden. ID:", id, "Forced State: Enabled");
+      chrome.management.setEnabled(id, true); // Force enable the extension
+
     }
 
     /** @override */
